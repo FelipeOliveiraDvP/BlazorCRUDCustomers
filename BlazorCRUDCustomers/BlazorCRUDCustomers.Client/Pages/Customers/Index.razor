@@ -1,0 +1,91 @@
+﻿@page "/clientes"
+@rendermode InteractiveServer
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <button class="btn btn-primary" @onclick="NavigateToCreatePage">
+                        Novo customer
+                    </button>
+                </div>
+            </div>
+
+            @if (Customers.Count > 0)
+            {
+                <div class="card-header">
+                    customers
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var customer in Customers)
+                            {
+                                <tr>
+                                    <td>@customer.Id</td>
+                                    <td>@customer.Name</td>
+                                    <td>@customer.Email</td>
+                                    <td>
+                                        <div class="hstack gap-2">
+                                            <button class="btn  btn-info" @onclick="()=>NavigateToEditPage(customer)"> Editar </button>
+                                            <button class="btn  btn-danger" @onclick="() => Delete(customer)"> Deletar </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info"> Nenhum customer disponível </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Customer> Customers { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCustomers();
+    }
+
+    private async Task LoadCustomers()
+    {
+        var customers = await _customerService.GetAllAsync();
+
+        Customers.Clear();
+
+        if (Customers is null) return;
+
+        foreach (var customer in customers) Customers.Add(customer);
+    }
+
+    private void NavigateToCreatePage()
+    {
+        _navigation.NavigateTo("clientes/novo");
+    }
+
+    private void NavigateToEditPage(Customer customer)
+    {
+        _navigation.NavigateTo($"clientes/{customer.Id}");
+    }
+
+    private async Task Delete(Customer customer)
+    {
+        await _customerService.DeleteAsync(customer.Id);
+        await LoadCustomers();
+    }
+}
