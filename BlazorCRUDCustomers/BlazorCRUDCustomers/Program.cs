@@ -18,6 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
                    opt.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 
 builder.Services.AddScoped(http => new HttpClient
 {

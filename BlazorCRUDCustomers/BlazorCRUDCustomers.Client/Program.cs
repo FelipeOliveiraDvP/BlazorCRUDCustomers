@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 builder.Services.AddScoped<ICustomerRepository, CustomerService>();
+builder.Services.AddScoped<ITodoRepository, TodoService>();
 
 builder.Services.AddScoped(http => new HttpClient
 {

@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorCRUDCustomers", "BlazorCRUDCustomers\BlazorCRUDCustomers\BlazorCRUDCustomers.csproj", "{D8F866D5-0570-484A-BC31-9644432E5C7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorCRUDCustomers", "BlazorCRUDCustomers\BlazorCRUDCustomers\BlazorCRUDCustomers.csproj", "{D8F866D5-0570-484A-BC31-9644432E5C7F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DA51B32A-D60C-49F1-899C-75EEF5D4AC82} = {DA51B32A-D60C-49F1-899C-75EEF5D4AC82}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorCRUDCustomers.Client", "BlazorCRUDCustomers\BlazorCRUDCustomers.Client\BlazorCRUDCustomers.Client.csproj", "{52181553-C903-4353-A32F-55085CAD1E5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorCRUDCustomers.Client", "BlazorCRUDCustomers\BlazorCRUDCustomers.Client\BlazorCRUDCustomers.Client.csproj", "{52181553-C903-4353-A32F-55085CAD1E5B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DA51B32A-D60C-49F1-899C-75EEF5D4AC82} = {DA51B32A-D60C-49F1-899C-75EEF5D4AC82}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorCRUDCustomers.Domain", "Domain\BlazorCRUDCustomers.Domain.csproj", "{DA51B32A-D60C-49F1-899C-75EEF5D4AC82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorCRUDCustomers.Domain", "Domain\BlazorCRUDCustomers.Domain.csproj", "{DA51B32A-D60C-49F1-899C-75EEF5D4AC82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

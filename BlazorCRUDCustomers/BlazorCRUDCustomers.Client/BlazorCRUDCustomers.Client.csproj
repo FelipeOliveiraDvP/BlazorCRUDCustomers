@@ -10,10 +10,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.2" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.6.13" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Domain\BlazorCRUDCustomers.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\_Shared\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,90 @@
+﻿<div class="modal fade" id="todoModal" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">@Title</h5>
+                <button type="button" class="close" @onclick="HandleClose">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <EditForm Model="Model" OnValidSubmit="HandleValidSubmit" FormName="TodoForm">
+                <DataAnnotationsValidator />
+                <div class="modal-body">                                
+                    <div class="form-group">
+                        <label class="form-label">Título</label>
+                        <InputText @bind-Value="Model.Title" class="form-control"></InputText>
+                        <ValidationMessage For="()=>Model.Title"></ValidationMessage>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <InputSelect @bind-Value="Model.Status" class="form-control">
+                            <option value="">Selecione uma opção</option>
+                            @foreach (var status in Enum.GetValues(typeof(Status)))
+                            {
+                                <option value="@status">@status</option>
+                            }
+                        </InputSelect>
+                        <ValidationMessage For="()=>Model.Status"></ValidationMessage>
+                    </div>                    
+                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="HandleClose">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int TodoId { get; set; }
+
+    [Parameter]
+    public Action? Callback { get; set; }
+
+    private Todo Model { get; set; } = new();
+
+    private string Title { get; set; } = "Nova Tarefa";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (TodoId > 0)
+        {
+            var todo = await _todoService.GetByIdAsync(TodoId);
+
+            if (todo is not null)
+            {
+                Model = todo;
+                Title = $"Editar tarefa \"{todo.Title}\"";
+            }
+        }
+        else
+        {
+            Title = "Nova Tarefa";
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (Model.Id > 0)
+        {
+            await _todoService.UpdateAsync(Model);
+        }
+        else
+        {
+            await _todoService.AddAsync(Model);
+        }
+
+        HandleClose();
+    }    
+
+    private void HandleClose()
+    {
+        Model = new Todo();
+        Callback?.Invoke();
+        _jsRuntime.InvokeVoidAsync("HideBSModal", "#todoModal");        
+    }    
+}

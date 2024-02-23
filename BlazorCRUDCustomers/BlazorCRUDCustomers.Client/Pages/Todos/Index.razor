@@ -1,0 +1,107 @@
+﻿@page "/tarefas"
+@rendermode InteractiveServer
+
+<PageTitle>Tarefas</PageTitle>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <button type="button" class="btn btn-primary" @onclick=ShowCreateModal>
+                        Nova Tarefa
+                    </button>
+                </div>
+            </div>
+
+            @if (Todos.Count > 0)
+            {
+                <div class="card-header">
+                    Tarefas
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Título</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var todo in Todos)
+                            {
+                                <tr>
+                                    <td>@todo.Id</td>
+                                    <td>@todo.Title</td>
+                                    <td>@todo.Status</td>
+                                    <td>
+                                        <div class="hstack gap-2">
+                                            <button class="btn btn-info" @onclick="() => ShowEditModal(todo.Id)"> Editar </button>
+                                            <button class="btn btn-danger" @onclick="() => ShowConfirmModal(todo.Id)"> Deletar </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info"> Nenhuma tarefa disponível </div>
+            }
+        </div>
+    </div>
+</div>
+
+<Modal TodoId="@TodoId" Callback="OnUpdate" />
+
+<Confirm TodoId="@TodoId" Callback="OnUpdate" />
+
+@code {
+    private List<Todo> Todos { get; set; } = new();
+
+    private int TodoId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTodos();
+    }
+
+    private async Task LoadTodos()
+    {
+        var todos = await _todoService.GetAllAsync();
+
+        if (todos is null) return;
+
+        Todos.Clear();
+
+        foreach (var todo in todos) Todos.Add(todo);
+    }   
+
+    private async void OnUpdate()
+    {
+        await LoadTodos();
+        StateHasChanged();
+    }
+
+    private void ShowCreateModal()
+    {
+        TodoId = 0;
+        _jsRuntime.InvokeVoidAsync("ShowBSModal", "#todoModal");
+    }
+
+    private void ShowEditModal(int todoId)
+    {
+        TodoId = todoId;
+        _jsRuntime.InvokeVoidAsync("ShowBSModal", "#todoModal");
+    }
+
+    private void ShowConfirmModal(int todoId)
+    {
+        TodoId = todoId;
+        _jsRuntime.InvokeVoidAsync("ShowBSModal", "#todoConfirmModal");
+    }    
+}

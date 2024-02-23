@@ -41,6 +41,26 @@ namespace BlazorCRUDCustomers.Migrations
 
                     b.ToTable("Customers");
                 });
+
+            modelBuilder.Entity("BlazorCRUDCustomers.Domain.Entities.Todo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Todos");
+                });
 #pragma warning restore 612, 618
         }
     }
